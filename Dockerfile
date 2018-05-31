@@ -45,7 +45,7 @@ ENV M2_HOME /usr/share/apache-maven-${M2_VER}
 ENV PATH $PATH:$M2_HOME/bin
 
 # hadoop
-RUN curl -sk https://www.eu.apache.org/dist/hadoop/common/hadoop-3.1.0/hadoop-3.1.0-src.tar.gz | tar -xz -C /tmp/
+RUN curl -sk https://archive.apache.org/dist/hadoop/common/hadoop-2.8.3/hadoop-2.8.3-src.tar.gz | tar -xz -C /tmp/
 
 # protoc -ohhh
 RUN curl -L -k1 https://github.com/google/protobuf/releases/download/v2.5.0/protobuf-2.5.0.tar.bz2 | bunzip2 | tar -x -C /tmp
@@ -55,11 +55,11 @@ ENV LD_LIBRARY_PATH /usr/local/lib
 ENV export LD_RUN_PATH /usr/local/lib
 
 # build native libs
-RUN cd /tmp/hadoop-3.1.0-src && mvn package -Pdist,native -DskipTests -Dtar
+RUN cd /tmp/hadoop-2.8.3-src && mvn package -Pdist,native -DskipTests -Dtar
 
 # tar to stdout
-RUN rm -r /tmp/hadoop-3.1.0-src/hadoop-dist/target/hadoop-3.1.0/lib/native/examples
-CMD tar -czv -C /tmp/hadoop-3.1.0-src/hadoop-dist/target/hadoop-3.1.0/lib/native/ .
+RUN rm -r /tmp/hadoop-2.8.3-src/hadoop-dist/target/hadoop-2.8.3/lib/native/examples
+CMD tar -czv -C /tmp/hadoop-2.8.3-src/hadoop-dist/target/hadoop-2.8.3/lib/native/ .
 
 # Create native libs tar with:
-# docker run --rm dvoros/docker-hadoop-build:3.1.0 > hadoop-native-64-3.1.0.tgz
+# docker run --rm dvoros/docker-hadoop-build:2.8.3 > hadoop-native-64-2.8.3.tgz
